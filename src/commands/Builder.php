@@ -39,18 +39,18 @@ class Builder extends Command
     {
         $name = $this->argument('name');
         if (!$name) exit('controller name required!');
-        if (file_exists(app_path('Http\\Controllers\\Admin\\' . $name . 'Controller.php'))) exit($name . 'Controller already exists!');
+        if (file_exists(app_path('Http\\Controllers\\' . config('stag.backend_dir') . '\\' . $name . 'Controller.php'))) exit($name . 'Controller already exists!');
         $this->createController($name);
-        if (!file_exists(app_path('\Http\\Models\\' . $name . '.php'))) $this->createModel($name);
+        if (!file_exists(app_path(config('stag.model_dir') . '\\' . $name . '.php'))) $this->createModel($name);
         if (!file_exists(app_path('Repositories\\' . $name . 'Repository.php'))) {
             if ($this->confirm('Do you wish to create Repo? [y|n]')) $this->createRepository($name);
         }
         //\File::append(base_path('routes/api.php'), 'Route::resource(\'' . str_plural(strtolower($name)) . "', '{$name}Controller');");
-        \File::append(base_path('routes/api.php'), 'Route::get(\'' . strtolower($name) . "', '{$name}Controller@index');");
-        \File::append(base_path('routes/api.php'), 'Route::post(\'' . 'create_' . strtolower($name) . "', '{$name}Controller@store');");
-        \File::append(base_path('routes/api.php'), 'Route::get(\'' . 'detail_' . strtolower($name) . "', '{$name}Controller@show');");
-        \File::append(base_path('routes/api.php'), 'Route::post(\'' . 'edit_' . strtolower($name) . "', '{$name}Controller@update');");
-        \File::append(base_path('routes/api.php'), 'Route::post(\'' . 'delete_' . strtolower($name) . "', '{$name}Controller@destory');");
+        \File::append(base_path('routes/' . config('stag.route_file') . '.php'), 'Route::get(\'' . strtolower($name) . "', '{$name}Controller@index');");
+        \File::append(base_path('routes/' . config('stag.route_file') . '.php'), 'Route::post(\'' . 'create_' . strtolower($name) . "', '{$name}Controller@store');");
+        \File::append(base_path('routes/' . config('stag.route_file') . '.php'), 'Route::get(\'' . 'detail_' . strtolower($name) . "', '{$name}Controller@show');");
+        \File::append(base_path('routes/' . config('stag.route_file') . '.php'), 'Route::post(\'' . 'edit_' . strtolower($name) . "', '{$name}Controller@update');");
+        \File::append(base_path('routes/' . config('stag.route_file') . '.php'), 'Route::post(\'' . 'delete_' . strtolower($name) . "', '{$name}Controller@destory');");
         echo 'Success';
     }
 
@@ -100,6 +100,7 @@ class Builder extends Command
             ],
             $this->getStub('Repository')
         );
+        if (!is_dir(app_path('Repositories'))) mkdir(app_path('Repositories'), 0777, true);
         file_put_contents(app_path("/Repositories/{$name}Repository.php"), $repositoryTemplate);
     }
 }
