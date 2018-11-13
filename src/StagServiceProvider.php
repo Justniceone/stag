@@ -7,6 +7,12 @@ use Illuminate\Support\ServiceProvider;
 class StagServiceProvider extends ServiceProvider
 {
     /**
+     * 服务提供者加是否延迟加载.
+     *
+     * @var bool
+     */
+    protected $defer = true; // 延迟加载服务
+    /**
      * Bootstrap services.
      *
      * @return void

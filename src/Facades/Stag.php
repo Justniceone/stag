@@ -8,6 +8,6 @@ class Stag extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'Stag';
+        return 'stag';
     }
 }
