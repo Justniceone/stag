@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Http\Controllers\Admin;
+
+use Illuminate\Http\Request;
+use App\Models\{{modelName}};
+use App\Traits\SearchForm;
+use App\Http\Controllers\Controller;
+use Validator;
+
+class {{modelName}}Controller extends Controller
+{
+    use SearchForm;
+
+    public function index(Request $request)
+    {
+        $query = {{modelName}}::where($this->where);
+        return $this->responseWithPagination($query, $this->page, $this->limit);
+    }
+
+    public function store(Request $request)
+    {
+        $v = Validator::make($request->all(),[
+              'cate_id' => 'required|integer',
+              'u_id' => 'required|integer',
+              'content' => 'required|string'
+        ]);
+        $v->sometimes('online_at', 'required|date|after:now', function($input) {
+            return $input->status == 2;
+        });
+        if ($v->fails()) return $this->responseValidateError($v);
+        $model = new {{modelName}}();
+        if ($model->loadAttributes($request->all())->save()) return $this->respondWithJson();
+        return $this->responseWithSystemError();
+    }
+
+    public function show(Request $request)
+    {
+        $id = $request->input('id');
+        ${{modelNameSingularLowerCase}} = {{modelName}}::findOrFail($id);
+        return $this->respondWithJson(${{modelNameSingularLowerCase}});
+    }
+
+    public function update(Request $request)
+    {
+       $v = Validator::make($request->all(),[
+            'id' => 'required|integer',
+            'schedule_kid' => 'required|integer',
+            'u_id' => 'required|integer',
+            'content' => 'required|',
+            'status' => 'required|integer|between:1,3',
+            'email' => 'unique:connection.users,email_address'
+        ]);
+        $v->sometimes('jump_url', 'required|url', function ($input) {
+            return $input->status == 2;
+        });
+        if ($v->fails()) return $this->responseValidateError($v);
+        $id = $request->input('id');
+        $model = {{modelName}}::findOrFail($id);
+        if ($model->loadAttributes($request->all())->save()) return $this->respondWithJson();
+        return $this->responseWithSystemError();
+    }
+
+    public function destory(Request $request)
+    {
+        $id = $request->input('id');
+        $model = {{modelName}}::findOrFail($id);
+        if ($model->delete() === false) return $this->responseWithSystemError();
+        return $this->respondWithJson([]);
+    }
+}

@@ -1,0 +1,27 @@
+{
+    "name": "gyf/stag",
+    "description": "quick crud builder",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "justnice",
+            "email": "18782993275@163.com"
+        }
+    ],
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "Gyf\\Stag\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Gyf\\Stag\\StagServiceProvider"
+            ],
+            "aliases": {
+                "Stag": "Gyf\\Stag\\Facades\\Stag"
+            }
+        }
+    }
+}
