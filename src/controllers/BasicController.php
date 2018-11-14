@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Gyf\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

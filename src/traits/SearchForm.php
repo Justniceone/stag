@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Traits;
+namespace Gyf\Traits;
 
 use Illuminate\Http\Request;
 
