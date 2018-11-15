@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Repositories;
+
+use App\Models\{{modelName}};
+
+class {{respisitoryName}}
+{
+    public function getLists($where, $page = 1, $limit = 20, $pagenation = true)
+    {
+        $query = {{modelName}}::where($where);
+        $total = $query->count();
+        $totalPage = ceil($total / $limit);
+        $lists = {{modelName}}::where($where)->skip(($page - 1) * $limit)->take($limit)->orderBy('id', 'desc')->get();
+
+        if ($pagenation) {
+             return [
+                   'rows' => $lists,
+                   'pagenation' => [
+                   'total' => $total,
+                   'totalPage' => $totalPage,
+                   'current' => (int)$page,
+                        ],
+                    ];
+                }
+
+        return $lists;
+    }
+
+    public function getOne($where)
+    {
+        return {{modelName}}::where($where)->first();
+    }
+
+    public function update($where, $data)
+    {
+        return {{modelName}}::where($where)->update($data);
+    }
+
+    public function delete($where)
+    {
+        return {{modelName}}::where($where)->delete();
+    }
+}

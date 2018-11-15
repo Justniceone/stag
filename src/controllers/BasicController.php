@@ -1,6 +1,6 @@
 <?php
 
-namespace Gyf\Controllers;
+namespace App\Http\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -23,19 +23,18 @@ class Controller extends BaseController
      * @param string $errors
      * @return array
      */
-    protected function respondWithJson($data = [], $success = true, $errors = '')
+    protected function respondWithJson($data = [], $extra = [], $success = true, $errors = '')
     {
         if ($data instanceof Collection) {
             $data = $data->toArray();
         }
 
-        return response()->json([
+        return response()->json(array_merge([
             'success' => $success,
-            'data'    => $data,
-            'errors'  => $errors,
-        ]);
+            'data' => $data,
+            'errors' => $errors,
+        ], $extra));
     }
-
 
     /**
      * 用于返回表单验证后的错误（validator）
@@ -53,12 +52,13 @@ class Controller extends BaseController
      * @param int $limit
      * @return array
      */
-    protected function responseWithPagination(Builder $query, $page, $limit = 20, $extra = [])
+    protected function responseWithPagination(Builder $query, $page, $limit = 20, $extra = [],
+                                              $orderBy = ['created_at', 'desc'])
     {
         $total = $query->count();
         $totalPage = ceil($query->count() / $limit);
         $data = [
-            'rows' => $query->skip(($page - 1) * $limit)->take($limit)->latest()->get(),
+            'rows' => $query->skip(($page - 1) * $limit)->take($limit)->orderBy($orderBy[0], $orderBy[1])->get(),
             'pagenation' => [
                 'total' => $total,
                 'totalPage' => $totalPage,
@@ -76,7 +76,7 @@ class Controller extends BaseController
      * @param int $https https协议
      * @return bool|mixed
      */
-    protected  function curl($url, $params = false, $ispost = 0, $https = 0)
+    protected function curl($url, $params = false, $ispost = 0, $https = 0)
     {
         $httpInfo = [];
         $ch = curl_init();
@@ -117,12 +117,12 @@ class Controller extends BaseController
     }
 
 
-    protected function responseWithNotFound($data = [], $success = false, $errors = 'Not Found')
+    protected function responseWithError($errors = 'error', $data = [], $success = false)
     {
         return $this->respondWithJson($data, $success, $errors);
     }
 
-    protected function responseWithSystemError($data = [], $success = false, $errors = '系统错误，请重试')
+    protected function responseWithSystemError($errors = '系统错误，请重试', $data = [], $success = false)
     {
         return $this->respondWithJson($data, $success, $errors);
     }
