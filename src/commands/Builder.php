@@ -45,11 +45,7 @@ class Builder extends Command
         if (!file_exists(app_path('Repositories\\' . $name . 'Repository.php'))) {
             if ($this->confirm('Do you wish to create Repo? [y|n]')) $this->createRepository($name);
         }
-        \File::append(base_path('routes/' . config('stag.route_file') . '.php'),
-            "Route::group(['prefix' => " . config('stag.controller_dir') . ", 'namespace' => " . config('stag.controller_dir') . "], function () {
-            'Route::resource(\'' . str_plural(strtolower($name)) . \"', '{$name}Controller');
-            });"
-        );
+        \File::append(base_path('routes/' . config('stag.route_file') . '.php'), 'Route::resource(\'' . str_plural(strtolower($name)) . "', '{$name}Controller');");
         /*\File::append(base_path('routes/' . config('stag.route_file') . '.php'), 'Route::get(\'' . strtolower($name) . "', '{$name}Controller@index');");
         \File::append(base_path('routes/' . config('stag.route_file') . '.php'), 'Route::post(\'' . 'create_' . strtolower($name) . "', '{$name}Controller@store');");
         \File::append(base_path('routes/' . config('stag.route_file') . '.php'), 'Route::get(\'' . 'detail_' . strtolower($name) . "', '{$name}Controller@show');");
