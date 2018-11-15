@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\{{controller_dir}};
 
 use Illuminate\Http\Request;
 use App\Models\{{modelName}};
 use App\Traits\SearchForm;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\BasicController;
 use Validator;
 
-class {{modelName}}Controller extends Controller
+class {{modelName}}Controller extends BasicController
 {
     use SearchForm;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace Gyf\Commands;
+namespace Gyf\Console\Commands;
 
 use Illuminate\Console\Command;
 
@@ -39,8 +39,7 @@ class Builder extends Command
     {
         $name = $this->argument('name');
         if (!$name) exit('controller name required!');
-        str_plural($name);
-        if (file_exists(app_path('Http\\Controllers\\' . config('stag.backend_dir') . '\\' . $name . 'Controller.php'))) exit($name . 'Controller already exists!');
+        if (file_exists(app_path('Http\\Controllers\\' . config('stag.controller_dir') . '\\' . $name . 'Controller.php'))) exit($name . 'Controller already exists!');
         $this->createController($name);
         if (!file_exists(app_path(config('stag.model_dir') . '\\' . $name . '.php'))) $this->createModel($name);
         if (!file_exists(app_path('Repositories\\' . $name . 'Repository.php'))) {
@@ -67,6 +66,7 @@ class Builder extends Command
             [$name, strtolower($name)],
             $this->getStub('Model')
         );
+        if (!is_dir(app_path(config('stag.model_dir')))) mkdir(app_path(config('stag.model_dir')), 0777, true);
         file_put_contents(app_path("Models/{$name}.php"), $modelTemplate);
     }
 
@@ -76,16 +76,19 @@ class Builder extends Command
             [
                 '{{modelName}}',
                 '{{modelNamePluralLowerCase}}',
-                '{{modelNameSingularLowerCase}}'
+                '{{modelNameSingularLowerCase}}',
+                '{{controller_dir}}'
             ],
             [
                 $name,
                 strtolower(str_plural($name)),
-                strtolower($name)
+                strtolower($name),
+                config('stag.controller_dir')
             ],
             $this->getStub('Controller')
         );
-        file_put_contents(app_path("/Http/Controllers/". config('stag.backend_dir') . "/{$name}Controller.php"), $controllerTemplate);
+        if (!is_dir(app_path('Http/Controllers/' . config('stag.controller_dir')))) mkdir(app_path('Http/Controllers/' . config('stag.controller_dir')), 0777, true);
+        file_put_contents(app_path('/Http/Controllers/'. config('stag.controller_dir') . "/{$name}Controller.php"), $controllerTemplate);
     }
 
     protected function createRepository($name)

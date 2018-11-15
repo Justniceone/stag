@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Gyf\Controllers;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
@@ -11,7 +11,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Validator;
 
-class Controller extends BaseController
+class BasicController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
