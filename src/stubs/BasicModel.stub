@@ -6,11 +6,11 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * App\Models\Admin
+ * App\Models\BasicModel
  *
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Admin newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Admin newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\Admin query()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BasicModel newModelQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BasicModel newQuery()
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BasicModel query()
  * @mixin \Eloquent
  */
 class BasicModel extends Model
