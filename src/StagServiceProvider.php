@@ -24,9 +24,9 @@ class StagServiceProvider extends ServiceProvider
             __DIR__ . '/stubs/Controller.stub' => resource_path('stubs/Controller.stub'),
             __DIR__ . '/stubs/Model.stub' => resource_path('stubs/Model.stub'),
             __DIR__ . '/stubs/BasicModel.stub' => resource_path('stubs/BasicModel.stub'),
-            __DIR__ . '/commands/Builder.php' => app_path('Console/Commands/Builder.php'),
-            __DIR__ . '/traits/SearchForm.php' => app_path('Traits/SearchForm.php'),
-            __DIR__ . '/controllers/BasicController.php' => app_path('Http/Controllers/BasicController.php'),
+            __DIR__ . '/Console/Commands/Builder.php' => app_path('Console/Commands/Builder.php'),
+            __DIR__ . '/Traits/SearchForm.php' => app_path('Traits/SearchForm.php'),
+            __DIR__ . '/Http/Controllers/BasicController.php' => app_path('Http/Controllers/BasicController.php'),
         ]);
     }
 
