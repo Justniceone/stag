@@ -61,7 +61,7 @@ class {{modelName}}Controller extends BasicController
         return $this->responseWithSystemError();
     }
 
-    public function destory(Request $request)
+    public function destroy(Request $request)
     {
         $id = $request->input('id');
         $model = {{modelName}}::findOrFail($id);
